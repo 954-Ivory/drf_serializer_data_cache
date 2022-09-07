@@ -2,7 +2,7 @@ from collections import deque
 from drf_serializer_data_cache.utils import get_relation_fields
 
 
-class BFPForIndirectRelation:
+class BFSForIndirectRelation:
     # This algorithm is quoted from:
     # https://github.com/shellfly/algs4-py/blob/master/algs4/breadth_first_paths.py
     def __init__(self, s):

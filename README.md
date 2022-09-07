@@ -2,7 +2,10 @@
 
 This repo was inspired by: [django-rest-framework-cache](https://github.com/Onyo/django-rest-framework-cache)
 
-Implemented the feature to auto-discover serializer related models(by `bfs`), and clear serializer cache which be changed.
+Implemented the feature to auto-discover serializer related models(by `bfs`), and clear serializer cache which be
+changed.
+
+[当然还有中文版](/README_zh.md)
 
 ## Installation
 
@@ -23,8 +26,8 @@ INSTALLED_APPS = (
 
 ## Usage
 
-To use the DRF cache you must register your serializer into cache registry ( such as Django admin ). You also must
-change your serializer to inherit the CachedSerializerMixin:
+You need to let your `ModelSerializer` to inherit the `CachedSerializerMixin`(Tips:`CachedSerializerMixin` must on left,
+because of `mro`.):
 
 ```python
 from rest_framework import serializers
@@ -78,11 +81,11 @@ REST_FRAMEWORK_CACHE = {
 
 ### Related model signals
 
-This library will automatically connect to serializer related model signals.
+By default, This library will automatically connect to serializer related model signals.
 
-By default, when serializer related model instance changed, related cache will be deleted.
+When serializer related model instance changed, related cache will be deleted.
 
-You can close it by `AUTO_DELETE_RELATED_CACHES`.
+You can set it by `AUTO_DELETE_RELATED_CACHES`.
 
 ```python
 REST_FRAMEWORK_CACHE = {

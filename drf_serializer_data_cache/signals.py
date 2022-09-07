@@ -1,6 +1,6 @@
 from django.db.models import signals
 from drf_serializer_data_cache.cache import cache
-from drf_serializer_data_cache.relations import BFPForIndirectRelation
+from drf_serializer_data_cache.relations import BFSForIndirectRelation
 from drf_serializer_data_cache.utils import get_dispatch_uid, get_cache_key, get_serializer_model_base
 
 
@@ -16,7 +16,7 @@ cache_registry = {}
 
 def connect_cache_clear_signals(models, serializer):
     source = get_serializer_model_base(serializer)[0]
-    indirect_relations = BFPForIndirectRelation(source)
+    indirect_relations = BFSForIndirectRelation(source)
     for model in models:
         predicate = indirect_relations.get_predicate(model)
         registry_relation = RegistryRelation(source, serializer, predicate)
