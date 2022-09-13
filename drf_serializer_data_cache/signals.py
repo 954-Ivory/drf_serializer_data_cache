@@ -45,4 +45,5 @@ def cache_clear_handler(sender, instance, **kwargs):
         predicate = registry_relation.predicate
         relation_key = [get_cache_key(i, serializer) for i in source.objects.filter(**{predicate: instance.pk})]
         keys += relation_key
-    cache.delete_many(keys)
+    if keys:
+        cache.delete_many(keys)
