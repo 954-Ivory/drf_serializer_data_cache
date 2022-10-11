@@ -18,22 +18,23 @@ def connect_cache_clear_signals(models, serializer):
     source = get_serializer_model_base(serializer)[0]
     indirect_relations = BFSForIndirectRelation(source)
     for model in models:
-        predicate = indirect_relations.get_predicate(model)
-        registry_relation = RegistryRelation(source, serializer, predicate)
-        registry_item = cache_registry.setdefault(model, set())
-        registry_item.add(registry_relation)
-        signals.post_save.connect(
-            cache_clear_handler, sender=model,
-            dispatch_uid=get_dispatch_uid(model)
-        )
-        signals.pre_delete.connect(
-            cache_clear_handler, sender=model,
-            dispatch_uid=get_dispatch_uid(model)
-        )
-        signals.m2m_changed.connect(
-            cache_clear_handler, sender=model,
-            dispatch_uid=get_dispatch_uid(model)
-        )
+        if model != source:
+            predicate = indirect_relations.get_predicate(model)
+            registry_relation = RegistryRelation(source, serializer, predicate)
+            registry_item = cache_registry.setdefault(model, set())
+            registry_item.add(registry_relation)
+            signals.post_save.connect(
+                cache_clear_handler, sender=model,
+                dispatch_uid=get_dispatch_uid(model)
+            )
+            signals.pre_delete.connect(
+                cache_clear_handler, sender=model,
+                dispatch_uid=get_dispatch_uid(model)
+            )
+            signals.m2m_changed.connect(
+                cache_clear_handler, sender=model,
+                dispatch_uid=get_dispatch_uid(model)
+            )
 
 
 def cache_clear_handler(sender, instance, **kwargs):
