@@ -37,6 +37,8 @@ class ToRepresentationCacheMixin:
         super_to_representation = getattr(super(ToRepresentationCacheMixin, self), 'to_representation')
         assert super_to_representation and callable(
             super_to_representation), 'The `Serializer` has not `to_representation`'
+        # If you use custom manager, and got the error here, look this:
+        # https://github.com/encode/django-rest-framework/pull/8727
         result = super_to_representation(instance)
         cache.set(key, result, cache_settings.SERIALIZER_CACHE_TIMEOUT)
         return result
